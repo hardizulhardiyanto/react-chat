@@ -1,5 +1,5 @@
 import React from 'react';
-
+import openSocket from 'socket.io-client';
 
 
 export default class ItemChat extends React.Component {
@@ -17,10 +17,14 @@ export default class ItemChat extends React.Component {
     fetch("http://localhost:3001/api/dataChat/" + chatID, requestOptions).then((response) => {
       return response.json();
 
-
+      
     }).then((result) => {
-
+      
       console.log('data result > ', result);
+      
+      const socket = openSocket('http://localhost:3002/');
+      socket.emit('delete-message');
+      
 
       // do what you want with the response here
 
@@ -71,5 +75,6 @@ export default class ItemChat extends React.Component {
         </article>
       </div>
     )
+    
   }
 }

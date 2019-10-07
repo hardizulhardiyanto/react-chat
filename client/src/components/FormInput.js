@@ -8,10 +8,14 @@ var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getD
 var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 var dateTime = date + ' ' + time;
 
+
+
+
 export default class FormInput extends React.Component {
+
     constructor(props) {
         super(props);
-        this.state = { name: '', message: '', dateTime: `${dateTime}`, _id: `${Date.now()}` };
+        this.state = { name: '', message: '', dateTime: `${dateTime}`, chatID: `${Date.now()}` };
 
 
         this.handleChange = this.handleChange.bind(this);
@@ -26,33 +30,41 @@ export default class FormInput extends React.Component {
     handleSubmit(event) {
         event.preventDefault(); //untuk disubmit tidak pindah halaman
 
+        // this.state= {name: '', message: '', dateTime: `${dateTime}`, chatID: '', ckRandom: Math.random()}
+        // this.handleChange = this.handleChange.bind(this);
+        // this.handleSubmit = this.handleSubmit.bind(this);
+
+        
+
+
         console.log("Submit Form");
         const payload = {
             name: this.state.name,
             message: this.state.message,
             dateTime: this.state.dateTime,
-            _id: this.state._id
+            chatID: this.state.chatID
         }
         console.log('payload >', payload);
 
         // this socket connect
         const socket = openSocket('http://localhost:3002/');
-        socket.emit('send-message', payload);        
+        socket.emit('send-message', payload);
         // 
 
         axios.post(`http://localhost:3001/api/dataChat/add`, {
 
             name: this.state.name,
             message: this.state.message,
-            dateTime: this.state.dateTime
+            dateTime: this.state.dateTime,
+            chatID: this.state.chatID
         })
             .then(res => {
                 this.setState({
                     name: '',
                     message: ''
                 });
-                console.log(res);
-                console.log(res.data);
+                console.log('post chek 1', res);
+                console.log('post chek 2', res.data);
             })
 
 

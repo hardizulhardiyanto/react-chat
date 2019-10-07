@@ -1,51 +1,77 @@
 import React from 'react';
-import axios from 'axios';
-import ItemChat from './ItemChat';
+
+
+export default class ItemChat extends React.Component {
+
+
+  handleClick(chatID) {
 
 
 
-export default class ListItem extends React.Component {
-    state = {
-        _id: '',
-        name: '',
-        message: '',
-        date: '',
-        chat: []
-
-    }
+    const requestOptions = {
+      method: 'DELETE'
 
 
-    componentDidMount() {
-        axios.get(`http://localhost:3001/api/dataChat`)
-            .then(res => {
+    };
+    fetch("http://localhost:3001/api/dataChat/" + chatID, requestOptions).then((response) => {
+      return response.json();
 
-                this.setState({ chat: [...res.data] });
-                console.log('dataState > ', res.data);
-            })
-            .catch(err => console.log(err));
+      
+    }).then((result) => {
+      
+      console.log('data result > ', result);
+      
 
 
-    }
+      // do what you want with the response here
 
-    render() {
 
-        const ListNode = this.state.chat.map((params, index) => <ItemChat key={index} name={params.name} message={params.message} chatID={params._id} dateTime={params.dateTime} />)
-        return (
-            <div>
-                <div class="card-body" >
-                    <div id="myDIV" onScroll="myFunction()">
-                        <div id="content">
-                            <div className="timeline">
-                                {ListNode}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    });
+  }
 
-        )
-    }
+
+  render() {
+    return (
+      <div>
+        <div className="line text-muted"></div>
+
+        <div className="separator text-muted">
+
+          <time>{this.props.dateTime}</time>
+        </div>
+
+
+        <article className="panel panel-primary">
+
+
+
+          <div className="panel-heading icon">
+            <i>
+              <button className="button button5" onClick={() => { this.handleClick(this.props.chatID) }} ></button>
+            </i>
+          </div>
+
+
+          <div className="panel-heading">
+            <h2 className="panel-title">{this.props.name}</h2>
+          </div>
+
+
+
+          <div className="panel-body">
+            {this.props.message}
+          </div>
+
+
+
+          <div className="panel-footer">
+            <small>{this.props.chatID}</small>
+          </div>
+
+
+        </article>
+      </div>
+    )
+    
+  }
 }
-
-
-

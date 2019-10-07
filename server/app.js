@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
+var router = express.Router();
+
 
 
 
@@ -35,21 +37,20 @@ io.on("connection", socket => {
 
     console.log('Socket send-message >', msg);
 
-    // socket.broadcast.emit("received", { message: msg });
+ 
+
     io.emit('receive-message', msg);
 
-    // function connect(connect) {
-    //   console.log("connected correctly to the server");
-      
-    //   let  chatMessage  =  new Chat({ message: msg, sender: "Anonymous"}) ;
-    //   chatMessage.save();
 
-    //   console.log('data db socket >', connect);
-      
-    // };
-    // connect()
-  
+
   });
+
+  socket.on('delete-message', () => {
+    console.log('success delete');
+    io.emit('receive-dm');
+
+
+  })
 });
 
 

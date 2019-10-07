@@ -27,15 +27,15 @@ router.post('/add', function (req, res, next) {
     console.log("");
     console.log('data body >', req.body);
     console.log("");
-    const { name, message, dateTime } = req.body;
+    const { name, message, dateTime, chatID } = req.body;
 
-    let chat = new Chat({ name, message, dateTime })
+    let chat = new Chat({ name, message, dateTime, chatID })
     chat.save().then((chatAdd) => {
         res.status(201).json({
             success: true,
             message: "Data Has Been Added",
             data: {
-                _id: chatAdd._id,
+                chatID: chatAdd.chatID,
                 name: chatAdd.name,
                 message: chatAdd.message,
                 dateTime: chatAdd.dateTime
@@ -55,7 +55,7 @@ router.delete('/:id', function (req, res, next) {
     console.log("");
 
 
-    Chat.findOneAndRemove({ _id: req.params.id }).then((chatRemoved) => {
+    Chat.findOneAndRemove({ chatID: req.params.id }).then((chatRemoved) => {
         res.status(201).json(chatRemoved);
     })
 });
