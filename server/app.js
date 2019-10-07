@@ -4,7 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
-var router = express.Router();
 
 
 
@@ -33,24 +32,30 @@ const io = require('socket.io')(connectSocket);
 
 io.on("connection", socket => {
 
+
+  // socket post send message
   socket.on('send-message', msg => {
 
+    console.log('');
+    console.log('');
+    console.log('=========== app send message');
+    console.log('');
     console.log('Socket send-message >', msg);
+    console.log('');
 
- 
-
+    // send to ListItem
     io.emit('receive-message', msg);
-
-
-
   });
 
+
+  // socket post delete message
   socket.on('delete-message', () => {
     console.log('success delete');
     io.emit('receive-dm');
-
-
   })
+
+
+
 });
 
 

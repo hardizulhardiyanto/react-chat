@@ -27,26 +27,22 @@ export default class FormInput extends React.Component {
         this.setState({ [name]: event.target.value });
     }
 
+
+
     handleSubmit(event) {
         event.preventDefault(); //untuk disubmit tidak pindah halaman
 
-        // this.state= {name: '', message: '', dateTime: `${dateTime}`, chatID: '', ckRandom: Math.random()}
-        // this.handleChange = this.handleChange.bind(this);
-        // this.handleSubmit = this.handleSubmit.bind(this);
-
-        
-
+        let dataRandom = Math.random() //supaya id random
 
         console.log("Submit Form");
         const payload = {
             name: this.state.name,
             message: this.state.message,
             dateTime: this.state.dateTime,
-            chatID: this.state.chatID
-        }
+            chatID: dataRandom        }
         console.log('payload >', payload);
 
-        // this socket connect
+        // this socket connect post server
         const socket = openSocket('http://localhost:3002/');
         socket.emit('send-message', payload);
         // 
@@ -56,7 +52,7 @@ export default class FormInput extends React.Component {
             name: this.state.name,
             message: this.state.message,
             dateTime: this.state.dateTime,
-            chatID: this.state.chatID
+            chatID: dataRandom
         })
             .then(res => {
                 this.setState({
@@ -66,12 +62,9 @@ export default class FormInput extends React.Component {
                 console.log('post chek 1', res);
                 console.log('post chek 2', res.data);
             })
-
-
-
-
-
     }
+
+    
 
     render() {
         return (

@@ -23,6 +23,7 @@ export default class ListItem extends React.Component {
 
         const socket = openSocket('http://localhost:3002/');
 
+        // this socket get delete message
         socket.on('receive-dm', () => {
 
             console.log('socket receive dm');
@@ -32,28 +33,21 @@ export default class ListItem extends React.Component {
 
                     this.setState({ chat: [...res.data] });
                     console.log('dataState > ', res.data);
-
-
-
                 })
                 .catch(err => console.log(err));
                 
-
-
         })
 
+        // get data from datachat router datachat
         axios.get(`http://localhost:3001/api/dataChat`)
             .then(res => {
 
                 this.setState({ chat: [...res.data] });
                 console.log('dataState > ', res.data);
-
-
-
             })
             .catch(err => console.log(err));
 
-        // This Socket
+        // This Socket receive message
         socket.on('receive-message', msg => {
             console.log('recived', msg);
 
