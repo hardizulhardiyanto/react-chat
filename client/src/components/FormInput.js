@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import openSocket from 'socket.io-client';
+
 
 var today = new Date();
 var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -9,7 +11,7 @@ var dateTime = date + ' ' + time;
 export default class FormInput extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { name: '', message: '', dateTime: `${dateTime}` };
+        this.state = { name: '', message: '', dateTime: `${dateTime}`, _id: `${Date.now()}` };
 
 
         this.handleChange = this.handleChange.bind(this);
@@ -24,18 +26,19 @@ export default class FormInput extends React.Component {
     handleSubmit(event) {
         event.preventDefault(); //untuk disubmit tidak pindah halaman
 
-        /**socket io client */
-        
-
-        /**end */
-
         console.log("Submit Form");
         const payload = {
             name: this.state.name,
             message: this.state.message,
-            dateTime: this.state.dateTime
+            dateTime: this.state.dateTime,
+            _id: this.state._id
         }
         console.log('payload >', payload);
+
+        // this socket connect
+        const socket = openSocket('http://localhost:3002/');
+        socket.emit('send-message', payload);        
+        // 
 
         axios.post(`http://localhost:3001/api/dataChat/add`, {
 

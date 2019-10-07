@@ -1,57 +1,51 @@
 import React from 'react';
+import axios from 'axios';
+import ItemChat from './ItemChat';
 
 
 
-function ItemChat(props) {
-  return (
-    <div>
-      <div className="line text-muted"></div>
+export default class ListItem extends React.Component {
+    state = {
+        _id: '',
+        name: '',
+        message: '',
+        date: '',
+        chat: []
 
-      <div className="separator text-muted">
-
-        <time>{props.dateTime}</time>
-      </div>
-
-    
-      <article className="panel panel-primary">
+    }
 
 
-        <div className="panel-heading icon">
-          <i>
-            <a href="index.html" class="glyphicon glyphicon-minus white" role="button" id={props.chatID}>
-              </a>
-          </i>
-        </div>
+    componentDidMount() {
+        axios.get(`http://localhost:3001/api/dataChat`)
+            .then(res => {
+
+                this.setState({ chat: [...res.data] });
+                console.log('dataState > ', res.data);
+            })
+            .catch(err => console.log(err));
 
 
-        <button onClick={() => { this.handleClick(this.props.chatID) }} class="glyphicon glyphicon-minus white border-radius: 50%;" role="button">
-                </button>
+    }
 
+    render() {
 
+        const ListNode = this.state.chat.map((params, index) => <ItemChat key={index} name={params.name} message={params.message} chatID={params._id} dateTime={params.dateTime} />)
+        return (
+            <div>
+                <div class="card-body" >
+                    <div id="myDIV" onScroll="myFunction()">
+                        <div id="content">
+                            <div className="timeline">
+                                {ListNode}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <div className="panel-heading">
-          <h2 className="panel-title">{props.name}</h2>
-        </div>
-
-
-
-        <div className="panel-body">
-          {props.message}
-        </div>
-
-
-
-        <div className="panel-footer">
-          <small>{props.chatID}</small>
-        </div>
-
-
-      </article>
-    </div>
-  
-  );
-  
+        )
+    }
 }
 
 
-export default ItemChat;
+

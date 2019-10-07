@@ -1,18 +1,30 @@
 import React from 'react';
 
+
+
 export default class ItemChat extends React.Component {
 
-  handleClick = chatID => {
+
+  handleClick(chatID) {
+
+
+
     const requestOptions = {
       method: 'DELETE'
+
 
     };
     fetch("http://localhost:3001/api/dataChat/" + chatID, requestOptions).then((response) => {
       return response.json();
+
+
     }).then((result) => {
-      console.log(result);
+
+      console.log('data result > ', result);
 
       // do what you want with the response here
+
+
     });
   }
 

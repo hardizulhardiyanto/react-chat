@@ -2,11 +2,7 @@ var express = require('express');
 var router = express.Router();
 let Chat = require('../models/chat');
 
-/**socket.io */
-// var http = require('http').Server(express);
-// var io = require('socket.io')(http);
 
-/**end */
 
 
 
@@ -64,15 +60,6 @@ router.delete('/:id', function (req, res, next) {
     })
 });
 
-/**Socket Connection */
-// io.on('connection', function(socket){
-//     // socket.on('chat message', function(msg){
-//     //   io.emit('chat message', msg);
-//     // });
-//     console.log('a user connected');
-//     socket.on('disconnect', function(){
-//       console.log('user disconnected');
-//     });
-//   });
+
 
 module.exports = router;
